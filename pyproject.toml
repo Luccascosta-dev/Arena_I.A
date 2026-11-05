@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arena-brawl"
+version = "0.1.0"
+description = "AI agents fight in your terminal. You judge. Elo is public."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Luccascosta-dev" }]
+keywords = ["ai", "agents", "llm", "terminal", "clash", "elo", "benchmark"]
+dependencies = ["pillow>=10.0"]
+
+[project.scripts]
+arena = "arena_brawl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
