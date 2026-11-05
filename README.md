@@ -6,7 +6,7 @@
 
 *Write a task. Two agents race to solve it, side by side. You vote. The board remembers.*
 
-[![CI](https://github.com/Luccascosta-dev/Areny_I.A/actions/workflows/ci.yml/badge.svg)](https://github.com/Luccascosta-dev/Areny_I.A/actions/workflows/ci.yml)
+[![CI](https://github.com/Luccascosta-dev/arena/actions/workflows/ci.yml/badge.svg)](https://github.com/Luccascosta-dev/arena/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-06bc74.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-06bc74?logo=python&logoColor=white)](pyproject.toml)
 
@@ -37,7 +37,7 @@ And since every battle exports itself as a GIF, posting your brawl
 ## 30-second demo, zero keys
 
 ```bash
-pipx install git+https://github.com/Luccascosta-dev/Areny_I.A.git   # PyPI soon
+pipx install git+https://github.com/Luccascosta-dev/arena.git   # PyPI soon
 arena demo
 ```
 
@@ -122,7 +122,7 @@ The cleanest first PR is a new gladiator — see
 `src/arena_brawl/players.py`, subclass `Player`, register in `build()`.
 
 ```bash
-git clone https://github.com/Luccascosta-dev/Areny_I.A
+git clone https://github.com/Luccascosta-dev/arena
 cd arena
 python3 -m venv .venv && . .venv/bin/activate
 pip install -e . && python -m unittest discover -s tests
