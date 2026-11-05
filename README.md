@@ -1,59 +1,83 @@
+<div align="center">
+
 # ⚔️ arena
 
 **AI agents fight in your terminal. You judge. Elo is public.**
 
-<p align="center">
-  <img src="assets/demo.gif" alt="arena — two agents brawl, you judge" width="780">
-</p>
+*Write a task. Two agents race to solve it, side by side. You vote. The board remembers.*
 
-Write a task. Two agents race to solve it, side by side, live. You watch,
-press `1` or `2`, and their Elo rating changes forever — locally, on your
-machine, with no hidden benchmark suite deciding for you.
+[![CI](https://github.com/Luccascosta-dev/arena/actions/workflows/ci.yml/badge.svg)](https://github.com/Luccascosta-dev/arena/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-06bc74.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-06bc74?logo=python&logoColor=white)](pyproject.toml)
+
+<img src="assets/demo.gif" alt="arena — two agents brawl side by side, you judge, GIF replay exported" width="800">
+
+</div>
+
+<br>
 
 ## Why
 
-Every "which model is best" debate is powered by opaque, pre-cooked benchmarks.
-`arena` turns evaluation into something honest: *tasks you actually care about,
-judged by a human who actually read the code* — and a leaderboard you own.
+Every "which model is best" debate runs on opaque, pre-cooked benchmarks.
+`arena` makes evaluation honest again: **tasks you actually care about, judged
+by a human who actually read the code** — with a leaderboard you own, on your
+machine, in plain sqlite.
 
-Plus, every battle exports itself as a GIF. Posting a brawl **is** the
-benchmark's advertising.
+And since every battle exports itself as a GIF, posting your brawl
+**is** how the benchmark gets advertised.
 
-## Install
-
-```bash
-pipx install arena-brawl        # or: pip install arena-brawl
+```
+    ┌── mock:sprint ─────────┐      ┌── mock:verbose ────────┐
+    │ ▓▓▓▓▓▓▓▒░░  612c       │  vs  │ ▓▓▓▓▓▓▓▓▓▓  1987c      │
+    └────────────────────────┘      └────────────────────────┘
+     [1] left   [2] right   [t] tie   [q] abort
+       🏆 elo: 1023 → 1047        gift-wrapped replay: arena-*.gif
 ```
 
-Requires Python 3.10+ and Pillow.
-
-## Quickstart — 30 seconds, zero keys
+## 30-second demo, zero keys
 
 ```bash
+pipx install git+https://github.com/Luccascosta-dev/arena.git   # PyPI soon
 arena demo
 ```
 
-Two built-in mock gladiators (`mock:sprint` — fast and terse, `mock:verbose`
-— slow and thorough) brawl over a CSV parsing bug. The replay lands at
-`assets/demo.gif`, the board updates, no API key involved.
+Two built-in mock gladiators brawl over a real bug:
+
+| gladiator | style | 
+|---|---|
+| `mock:sprint` | fast, terse, "ship it" |
+| `mock:verbose` | slow, thorough, thinks out loud |
+
+The replay lands at `assets/demo.gif`, the board updates, **no API key involved**.
 
 ## A real battle
 
+Anything that speaks the OpenAI chat-completions protocol is a valid gladiator —
+OpenAI, OpenRouter, Groq, Ollama, LM Studio, vLLM:
+
 ```bash
-# anything that speaks the OpenAI chat-completions protocol
 export OPENAI_API_KEY=sk-...
 arena run "fix the flaky test in tests/test_cart.py" \
     --players "openai:gpt-5-mini,openai:gpt-4.1-mini"
 
-# Ollama or any other local endpoint
+# local models, same protocol
 export OPENAI_BASE_URL=http://localhost:11434/v1
 export OPENAI_API_KEY=ollama
 arena run "refactor login_error.py into pure functions" \
     --players "openai:qwen3:4b,openai:llama3.2:3b"
 ```
 
-Watch both panes stream, then vote: `1` / `2` / `t` tie / `q` abort.
-Non-interactive mode for CI: `--auto` (ties) or `--winner 1`.
+Both panes stream live; then you judge:
+
+| key | meaning |
+|:-:|---|
+| `1` | left pane wins |
+| `2` | right pane wins |
+| `t` | tie |
+| `q` | abort — no elo touched |
+
+Non-interactive (scripts/CI): `--auto` records a tie; `--winner 1` pre-decides.
+Skip replay entirely with `--no-gif`.
 
 ## The board
 
@@ -68,39 +92,40 @@ arena board
   mock:sprint                        994   0   2   0
 ```
 
-Standard Elo (K=24). Beats are stored in `~/.arena-brawl/book.db`
-(or `$ARENA_HOME`), plain sqlite, yours to query.
+Standard Elo, K=24, upset-sensitive. Lives in `~/.arena-brawl/book.db`
+(or `$ARENA_HOME`) — plain sqlite, yours to query.
 
-## Players
+## How it fits together
 
-| spec             | what it is                                          |
-|------------------|-----------------------------------------------------|
-| `mock:sprint`    | built-in fake agent, fast & terse (offline)          |
-| `mock:verbose`   | built-in fake agent, slow & thorough (offline)       |
-| `openai:<model>` | any OpenAI-compatible endpoint (`OPENAI_BASE_URL`)   |
+```mermaid
+graph LR
+    T["task"] --> P1["player A<br/>stream(task)"] --> R["brawl engine<br/>side-by-side + frames"]
+    T --> P2["player B<br/>stream(task)"] --> R
+    R --> G["GIF replay"]
+    R --> V["your vote"] --> E["Elo (K=24)"] --> B["sqlite board"]
+```
 
-Adding a new kind is [deliberately boring](#contributing): implement
-`stream(task)` yielding text chunks — that's the whole protocol.
+Adding a gladiator is deliberately boring: subclass `Player`, implement
+`stream(task)` yielding text chunks. That's the whole protocol.
 
 ## Roadmap
 
-- [ ] replay format v2 — diff view of the two final answers
-- [ ] 3+ simultaneous fighters (round-robin tournament)
-- [ ] `arena event` — host a board file and merge friends' scores
+- [ ] replay v2 — diff view of the two final answers
+- [ ] 3+ fighters, round-robin tournament
+- [ ] `arena event` — host a board file, merge friends' scores
 - [ ] GitHub Action: badge with your board's #1 fighter
-- [ ] `sentinela` plugin: bail out of battles whose outputs contain secrets
+- [ ] sentinela plugin: nullify battles whose outputs contain secrets
 
 ## Contributing
 
-The cleanest first PR is a new gladiator: subclass `Player`, implement
-`stream(task)`, register it in `build()` and send the PR. Battles with new
-gladiators get posted to the repo every week — the weekly board post is
-community growth, not marketing.
+The cleanest first PR is a new gladiator — see
+`src/arena_brawl/players.py`, subclass `Player`, register in `build()`.
 
 ```bash
-git clone <repo> && cd arena
+git clone https://github.com/Luccascosta-dev/arena
+cd arena
 python3 -m venv .venv && . .venv/bin/activate
 pip install -e . && python -m unittest discover -s tests
 ```
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). 🥊
