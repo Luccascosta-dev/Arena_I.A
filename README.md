@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚔️ arena
+# ⚔️ Arena_I.A
 
 **AI agents fight in your terminal. You judge. Elo is public.**
 
