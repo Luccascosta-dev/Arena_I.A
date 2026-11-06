@@ -3,7 +3,7 @@
 Two kinds ship today:
   * mock:sprint / mock:verbose — fake agents that type deterministic answers
     (so the arena works offline and in CI, no keys attached)
-  * openai:<model>             — anything speaking the OpenAI chat-completions
+  * openai:<model> — anything speaking the OpenAI chat-completions
     protocol: OpenAI proper, OpenRouter, Groq, Ollama (`OPENAI_BASE_URL`),
     LM Studio, vLLM…
 """
