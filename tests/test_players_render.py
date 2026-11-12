@@ -3,7 +3,6 @@ import unittest
 from arena_brawl import render
 from arena_brawl.players import MockPlayer, build
 
-
 class TestPlayers(unittest.TestCase):
     def test_factory_builds_mocks(self):
         self.assertIsInstance(build("mock:sprint"), MockPlayer)
@@ -22,7 +21,6 @@ class TestPlayers(unittest.TestCase):
         p = MockPlayer("verbose")
         text = "".join(p.stream("banish the werewolf bug"))
         self.assertIn("werewolf", text)
-
 
 class TestRender(unittest.TestCase):
     def test_frames_have_constant_shape(self):
@@ -45,7 +43,6 @@ class TestRender(unittest.TestCase):
         out = render.paint([render.Seg("hi", 2, True)])
         self.assertIn("\x1b[32m", out)
         self.assertIn("\x1b[0m", out)
-
 
 if __name__ == "__main__":
     unittest.main()
