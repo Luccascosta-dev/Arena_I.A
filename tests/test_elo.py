@@ -2,7 +2,6 @@ import unittest
 
 from arena_brawl import elo
 
-
 class TestElo(unittest.TestCase):
     def test_standard_first_battle(self):
         self.assertEqual(elo.update(1000.0, 1000.0, 1.0), (1012.0, 988.0))
@@ -18,7 +17,6 @@ class TestElo(unittest.TestCase):
     def test_bogus_score_rejected(self):
         with self.assertRaises(ValueError):
             elo.update(1000.0, 1000.0, 0.7)
-
 
 if __name__ == "__main__":
     unittest.main()
