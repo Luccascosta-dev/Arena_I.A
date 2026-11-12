@@ -8,14 +8,12 @@ from arena_brawl import render
 from arena_brawl.gif import export
 from arena_brawl.render import Seg
 
-
 def synth_frames(n=4):
     cols = [
         render.ColState(name="mock:sprint", color=2, text="def fix():\n    return ok — " * 30, chars=900),
         render.ColState(name="mock:verbose", color=3, text="# analysis\n1. think\n2. code\n3. test", chars=350),
     ]
     return [render.make_frame(cols, "ustria: fix csv", status=render.progress_row(cols)) for _ in range(n)]
-
 
 class TestGif(unittest.TestCase):
     def test_export_creates_animated_gif(self):
@@ -37,7 +35,6 @@ class TestGif(unittest.TestCase):
     def test_empty_frames_rejected(self):
         with self.assertRaises(ValueError):
             export([], "never-created.gif")
-
 
 if __name__ == "__main__":
     unittest.main()
