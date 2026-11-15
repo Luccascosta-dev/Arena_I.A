@@ -6,6 +6,7 @@
 
 *Write a task. Two agents race to solve it, side by side. You vote. The board remembers.*
 
+
 [![CI](https://github.com/Luccascosta-dev/Arena_I.A/actions/workflows/ci.yml/badge.svg)](https://github.com/Luccascosta-dev/Arena_I.A/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-06bc74.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-06bc74?logo=python&logoColor=white)](pyproject.toml)
