@@ -15,6 +15,7 @@ class TestStore(unittest.TestCase):
     def tearDown(self):
         import os
         import shutil
+        
 
         if self._old:
             os.environ["ARENA_HOME"] = self._old
