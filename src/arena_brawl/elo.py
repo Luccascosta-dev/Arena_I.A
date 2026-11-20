@@ -16,3 +16,4 @@ def update(ra: float, rb: float, score_a: float) -> tuple[float, float]:
     na = ra + K * (score_a - ea)
     nb = rb + K * ((1.0 - score_a) - (1.0 - ea))
     return round(na, 1), round(nb, 1)
+
