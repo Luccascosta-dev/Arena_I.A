@@ -56,7 +56,6 @@ def update(
         )
     c.commit()
 
-
 def top(c: sqlite3.Connection, n: int = 10) -> list[tuple]:
     ensure_rows(c)
     return c.execute(
